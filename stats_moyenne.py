@@ -74,7 +74,6 @@ def histogramme_moyen(file_names, column_name):
     for file_name in file_names:
         if column_name != "diff_relatif":
             tableau = tableau_données(file_name)[0]
-
             tableau["diff_relatif"] = (
                 tableau["diff"].astype(int) + tableau["level"] - 10
             )
@@ -86,7 +85,7 @@ def histogramme_moyen(file_names, column_name):
                 j,
             )
             ax = sc.histplot(
-                sorted_data[column_name],
+                tableau[column_name],
                 stat="probability",
                 alpha=0.5,
                 color="blue",
@@ -169,7 +168,6 @@ def histogramme_moyen(file_names, column_name):
             j += 1
 
     plt.show()
-
     print(
         "################################################################################"
     )
@@ -190,7 +188,7 @@ def histogramme_moyen(file_names, column_name):
             d = dico_matière(d, l[i])
         d = {i: round(np.mean(np.array(d[i])), 2) for i in d}
         d
-        x = list(tableau[column_name].unique())
+        x = list(d.keys())
         y = list(d.values())
         plt.ylim(0, 100)
         plt.ylabel(
