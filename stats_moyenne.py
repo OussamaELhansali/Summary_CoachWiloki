@@ -15,6 +15,14 @@ def histogramme_moyen(file_names, column_name):
             data[value] = height
         return data
 
+    def histogram_to_dict_diff(histogram, column):
+        data = {}
+        x = range(min(list(column.unique())), max(list(column.unique())) + 1)
+        for patch, value in zip(histogram.patches, x):
+            height = patch.get_height()
+            data[value] = height
+        return data
+
     def dico_matière(dico1, dico2):
         def unsqueeze_lists(input_list):
             unsqueezed_list = []
@@ -169,7 +177,7 @@ def histogramme_moyen(file_names, column_name):
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
             plt.title(f"Pourcentage des {column_name} par session {j} pour type VOC")
-            l.append(histogram_to_dict(ax, tableau[column_name]))
+            l.append(histogram_to_dict_diff(ax, tableau[column_name]))
             ########################################
             plt.subplot(
                 int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0)))
@@ -196,7 +204,7 @@ def histogramme_moyen(file_names, column_name):
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
             plt.title(f"Pourcentage des {column_name} par session {j} pour type quizz")
-            l1.append(histogram_to_dict(ax, tableau[column_name]))
+            l1.append(histogram_to_dict_diff(ax, tableau[column_name]))
             j += 1
 
     plt.show()
@@ -304,9 +312,17 @@ def histogramme_moyen(file_names, column_name):
 
 
 def histogramme_moyen_moddiff(file_names):
-    def histogram_to_dict(histogram, column):
+    def histogram_to_dict_diff(histogram, column):
         data = {}
         for patch, value in zip(histogram.patches, column.unique()):
+            height = patch.get_height()
+            data[value] = height
+        return data
+
+    def histogram_to_dict_diff(histogram, column):
+        data = {}
+        x = range(min(list(column.unique())), max(list(column.unique())) + 1)
+        for patch, value in zip(histogram.patches, x):
             height = patch.get_height()
             data[value] = height
         return data
@@ -390,7 +406,7 @@ def histogramme_moyen_moddiff(file_names):
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Cool")
-        l.append(histogram_to_dict(ax, cool["diff_relatif"]))
+        l.append(histogram_to_dict_diff(ax, cool["diff_relatif"]))
         ########################################
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
@@ -417,7 +433,7 @@ def histogramme_moyen_moddiff(file_names):
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Révision")
-        l1.append(histogram_to_dict(ax, revis["diff_relatif"]))
+        l1.append(histogram_to_dict_diff(ax, revis["diff_relatif"]))
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
             3,
@@ -443,7 +459,7 @@ def histogramme_moyen_moddiff(file_names):
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Winner")
-        l2.append(histogram_to_dict(ax, win["diff_relatif"]))
+        l2.append(histogram_to_dict_diff(ax, win["diff_relatif"]))
         j += 1
     plt.show()
     print(
