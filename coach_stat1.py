@@ -36,6 +36,9 @@ def tableau_données(tab_event):
     ## Adding student's level
     for i in exercices:
         i[1]["level"] = data["lev"]
+        if len(i[1]["video"]) == 0 or len(i[1]["kp"]) == 0:
+            i[1]["video"] = [""]
+            i[1]["kp"] = [""]
     tableau = pd.DataFrame(exercices[0][1])
     for i in exercices[1:]:
         tableau = pd.concat([tableau, pd.DataFrame(i[1])], ignore_index=True)
