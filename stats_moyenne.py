@@ -72,13 +72,45 @@ def histogramme_moyen(file_names, column_name):
             )
         )
     for file_name in file_names:
-        if column_name != "diff_relatif":
+        if column_name != "diff_relatif" and column_name != "matière_nom":
             tableau = tableau_données(file_name)[0]
             tableau["diff_relatif"] = (
                 tableau["diff"].astype(int) + tableau["level"] - 10
             )
             tableau["matière_nom"] = tableau["matiere"].map(lambda x: label_dict[x])
             sorted_data = tableau.sort_values(column_name)
+            plt.subplot(
+                int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))),
+                3,
+                j,
+            )
+            ax = sc.histplot(
+                sorted_data[column_name],
+                stat="probability",
+                alpha=0.5,
+                color="blue",
+                edgecolor="white",
+                linewidth=1.2,
+                discrete=True,
+            )
+            for rect in ax.containers[0]:
+                height = rect.get_height()
+                rect.set_height(round((height * 100), 2))
+            ax.bar_label(ax.containers[0])
+            plt.ylabel(f"Pourcentage des {column_name} par session", fontsize=8)
+            plt.xlabel(f"{column_name}")
+            plt.ylim(0, 100)
+            plt.title(f"Pourcentage des {column_name} par session {j}")
+            l.append(histogram_to_dict(ax, sorted_data[column_name]))
+
+            j += 1
+        elif column_name == "matière_nom":
+            tableau = tableau_données(file_name)[0]
+            tableau["diff_relatif"] = (
+                tableau["diff"].astype(int) + tableau["level"] - 10
+            )
+            tableau["matière_nom"] = tableau["matiere"].map(lambda x: label_dict[x])
+            sorted_data = tableau.sort_values("matiere")
             plt.subplot(
                 int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))),
                 3,
