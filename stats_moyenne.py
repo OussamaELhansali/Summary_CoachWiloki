@@ -85,7 +85,7 @@ def histogramme_moyen(file_names, column_name):
                 j,
             )
             ax = sc.histplot(
-                tableau[column_name],
+                sorted_data[column_name],
                 stat="probability",
                 alpha=0.5,
                 color="blue",
@@ -101,7 +101,7 @@ def histogramme_moyen(file_names, column_name):
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
             plt.title(f"Pourcentage des {column_name} par session {j}")
-            l.append(histogram_to_dict(ax, tableau[column_name]))
+            l.append(histogram_to_dict(ax, sorted_data[column_name]))
 
             j += 1
         else:
