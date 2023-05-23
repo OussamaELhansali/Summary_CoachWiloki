@@ -298,3 +298,243 @@ def histogramme_moyen(file_names, column_name):
         plt.show()
     else:
         pass
+
+
+##########################################################################################################################
+
+
+def histogramme_moyen_moddiff(file_names):
+    def histogram_to_dict(histogram, column):
+        data = {}
+        for patch, value in zip(histogram.patches, column.unique()):
+            height = patch.get_height()
+            data[value] = height
+        return data
+
+    def dico_matière(dico1, dico2):
+        def unsqueeze_lists(input_list):
+            unsqueezed_list = []
+            for item in input_list:
+                if isinstance(item, list):
+                    unsqueezed_list.extend(item)
+                else:
+                    unsqueezed_list.append(item)
+            return unsqueezed_list
+
+        d = {}
+        keys_1 = list(dico1.keys())
+        keys_2 = list(dico2.keys())
+        for i in keys_1:
+            if i in keys_2:
+                d[i] = unsqueeze_lists([dico1[i], dico2[i]])
+                keys_2.remove(i)
+            else:
+                d[i] = dico1[i]
+        for j in keys_2:
+            d[j] = dico2[j]
+        return d
+
+    l = []
+    label_dict = {
+        0: "culture générale",
+        1: "maths",
+        2: "francais",
+        3: "anglais",
+        4: "histoire",
+        5: "géographie",
+        6: "sciences",
+        11: "Physiques chimie",
+    }
+
+    # List of file names
+
+    j = 1
+    l1 = []
+    l2 = []
+    plt.figure(
+        figsize=(
+            30,
+            ((len(file_names)) // 3 + int(np.heaviside(len(file_names) % 3, 0)))
+            * 5
+            * 3,
+        )
+    )
+    for file_name in file_names:
+        tableau = tableau_données(file_name)[0]
+        tableau["diff_relatif"] = tableau["diff"].astype(int) + tableau["level"] - 10
+        tableau["type"] = tableau["type"].astype(str)
+        cool = tableau[tableau["mod"] == "cool"]
+        revis = tableau[tableau["mod"] == "revis"]
+        win = tableau[tableau["mod"] == "win"]
+        plt.subplot(
+            int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
+            3,
+            j,
+        )
+        ax = sc.histplot(
+            cool["diff_relatif"],
+            stat="probability",
+            alpha=0.5,
+            color="blue",
+            edgecolor="white",
+            linewidth=1.2,
+            discrete=True,
+        )
+        for rect in ax.containers[0]:
+            height = rect.get_height()
+            rect.set_height(round((height * 100), 2))
+        ax.bar_label(ax.containers[0])
+        plt.ylabel(
+            f"Pourcentage des difficultés pour la session{j} pour mode Cool", fontsize=8
+        )
+        plt.xlabel("diff_relatif")
+        plt.ylim(0, 100)
+        plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Cool")
+        l.append(histogram_to_dict(ax, cool["diff_relatif"]))
+        ########################################
+        plt.subplot(
+            int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
+            3,
+            j + len(file_names) + 3 - len(file_names) % 3,
+        )
+        ax = sc.histplot(
+            revis["diff_relatif"],
+            stat="probability",
+            alpha=0.5,
+            color="blue",
+            edgecolor="white",
+            linewidth=1.2,
+            discrete=True,
+        )
+        for rect in ax.containers[0]:
+            height = rect.get_height()
+            rect.set_height(round((height * 100), 2))
+        ax.bar_label(ax.containers[0])
+        plt.ylabel(
+            f"Pourcentage des difficultés pour la session{j} pour mode Révision",
+            fontsize=8,
+        )
+        plt.xlabel("diff_relatif")
+        plt.ylim(0, 100)
+        plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Révision")
+        l1.append(histogram_to_dict(ax, revis["diff_relatif"]))
+        plt.subplot(
+            int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
+            3,
+            j + len(file_names) + 9 - len(file_names) % 3,
+        )
+        ax = sc.histplot(
+            win["diff_relatif"],
+            stat="probability",
+            alpha=0.5,
+            color="blue",
+            edgecolor="white",
+            linewidth=1.2,
+            discrete=True,
+        )
+        for rect in ax.containers[0]:
+            height = rect.get_height()
+            rect.set_height(round((height * 100), 2))
+        ax.bar_label(ax.containers[0])
+        plt.ylabel(
+            f"Pourcentage des difficultés pour la session{j} pour mode Winner",
+            fontsize=8,
+        )
+        plt.xlabel("diff_relatif")
+        plt.ylim(0, 100)
+        plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Winner")
+        l2.append(histogram_to_dict(ax, win["diff_relatif"]))
+        j += 1
+    plt.show()
+    print(
+        "################################################################################"
+    )
+    if len(file_names) > 1:
+        print("les pourcentages moyens des sessions")
+        display(
+            HTML(
+                '<h1 style="color: cyan;">Pourcentages moyens par session</h1> 🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻'
+            )
+        )
+        plt.figure(figsize=(24, 5))
+        d = {}
+        for i in range(len(l)):
+            d = dico_matière(d, l[i])
+        d = {i: round(np.mean(np.array(d[i])), 2) for i in d}
+        x = list(d.keys())
+        y = list(d.values())
+        plt.subplot(1, 3, 1)
+        plt.ylim(0, 100)
+        plt.ylabel(
+            f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Cool",
+            fontsize=8,
+        )
+        plt.title(f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Cool")
+        plt.grid(color="lightblue")
+        plt.bar(
+            x,
+            y,
+            alpha=0.5,
+            color="cyan",
+            edgecolor="white",
+            linewidth=1.2,
+        )
+        for i in range(len(x)):
+            plt.text(x[i], y[i], y[i], ha="center", va="bottom")
+
+        d1 = {}
+        for i in range(len(l1)):
+            d1 = dico_matière(d, l1[i])
+        d1 = {i: round(np.mean(np.array(d1[i])), 2) for i in d1}
+        x = list(d1.keys())
+        y = list(d1.values())
+        plt.subplot(1, 3, 2)
+        plt.ylim(0, 100)
+        plt.ylabel(
+            f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Révision",
+            fontsize=8,
+        )
+        plt.title(
+            f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Révision"
+        )
+        plt.grid(color="lightblue")
+        plt.bar(
+            x,
+            y,
+            alpha=0.5,
+            color="cyan",
+            edgecolor="white",
+            linewidth=1.2,
+        )
+        for i in range(len(x)):
+            plt.text(x[i], y[i], y[i], ha="center", va="bottom")
+
+        d2 = {}
+        for i in range(len(l2)):
+            d2 = dico_matière(d, l2[i])
+        d2 = {i: round(np.mean(np.array(d2[i])), 2) for i in d2}
+        x = list(d2.keys())
+        y = list(d2.values())
+        plt.subplot(1, 3, 3)
+        plt.ylim(0, 100)
+        plt.ylabel(
+            f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Winner",
+            fontsize=8,
+        )
+        plt.title(
+            f"Pourcentages moyens des diff_relatif des {j-1} sessions mode Winner"
+        )
+        plt.grid(color="lightblue")
+        plt.bar(
+            x,
+            y,
+            alpha=0.5,
+            color="cyan",
+            edgecolor="white",
+            linewidth=1.2,
+        )
+        for i in range(len(x)):
+            plt.text(x[i], y[i], y[i], ha="center", va="bottom")
+        plt.show()
+    else:
+        pass
