@@ -256,9 +256,7 @@ def histogramme_moyen(file_names, column_name):
         d = {}
         for i in range(len(l)):
             d = dico_matière(d, l[i])
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d.values()
-        )
+        max_len = len(file_names)
         for key in d:
             if not isinstance(d[key], list):
                 d[key] = [d[key]]
@@ -288,9 +286,7 @@ def histogramme_moyen(file_names, column_name):
         d1 = {}
         for i in range(len(l1)):
             d1 = dico_matière(d1, l1[i])
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d1.values()
-        )
+        max_len = len(file_names)
         for key in d1:
             if not isinstance(d1[key], list):
                 d1[key] = [d1[key]]
@@ -493,9 +489,7 @@ def histogramme_moyen_moddiff(file_names):
         for i in range(len(l)):
             d = dico_matière(d, l[i])
 
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d.values()
-        )
+        max_len = len(file_names)
         for key in d:
             if not isinstance(d[key], list):
                 d[key] = [d[key]]
@@ -526,9 +520,7 @@ def histogramme_moyen_moddiff(file_names):
         d1 = {}
         for i in range(len(l1)):
             d1 = dico_matière(d1, l1[i])
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d1.values()
-        )
+        max_len = len(file_names)
         for key in d1:
             if not isinstance(d1[key], list):
                 d1[key] = [d1[key]]
@@ -561,9 +553,7 @@ def histogramme_moyen_moddiff(file_names):
         d2 = {}
         for i in range(len(l2)):
             d2 = dico_matière(d2, l2[i])
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d2.values()
-        )
+        max_len = len(file_names)
         for key in d2:
             if not isinstance(d2[key], list):
                 d2[key] = [d2[key]]
@@ -796,9 +786,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         for i in range(len(l)):
             d = dico_matière(d, l[i])
         # d={i:[d[i]]+[0]*(len(l)-len(list(d[i]))) for i in d.keys() if len(l)-len(list(d[i]))>0 }
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d.values()
-        )
+        max_len = len(tab_events)
 
         for key in d:
             if not isinstance(d[key], list):
@@ -824,9 +812,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         for i in range(len(l1)):
             d1 = dico_matière(d1, l1[i])
 
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d1.values()
-        )
+        max_len = len(tab_events)
 
         for key in d1:
             if not isinstance(d1[key], list):
