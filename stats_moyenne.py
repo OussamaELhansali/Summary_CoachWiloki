@@ -605,7 +605,7 @@ def histogramme_moyen_moddiff(file_names):
         pass
 
 
-def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
+def histogramme_moyen_modeType(tab_events, mode, column_name="diff_relatif"):
     def histogram_to_dict_diff(histogram, column):
         data = {}
         x = range(min(list(column.unique())), max(list(column.unique())) + 1)
@@ -671,7 +671,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
             )
         )
     for tableau in tab_events:
-        mode = tableau["mod"].unique()[0]
+        mode = mode
         if column_name != "diff_relatif":
             tableau = tableau_données(file_name)[0]
             tableau["diff_relatif"] = (
@@ -693,10 +693,13 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
                 linewidth=1.2,
                 discrete=True,
             )
-            for rect in ax.containers[0]:
-                height = rect.get_height()
-                rect.set_height(round((height * 100), 2))
-            ax.bar_label(ax.containers[0])
+            if len(ax.containers) > 0:
+                for rect in ax.containers[0]:
+                    height = rect.get_height()
+                    rect.set_height(round((height * 100), 2))
+                ax.bar_label(ax.containers[0])
+            else:
+                pass
             plt.ylabel(f"Pourcentage des {column_name} par session", fontsize=8)
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
@@ -725,10 +728,14 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
                 linewidth=1.2,
                 discrete=True,
             )
-            for rect in ax.containers[0]:
-                height = rect.get_height()
-                rect.set_height(round((height * 100), 2))
-            ax.bar_label(ax.containers[0])
+            if len(ax.containers) > 0:
+                for rect in ax.containers[0]:
+                    height = rect.get_height()
+                    rect.set_height(round((height * 100), 2))
+                ax.bar_label(ax.containers[0])
+                l.append(histogram_to_dict_diff(ax, coach[column_name]))
+            else:
+                l.append({0: 0})
             plt.ylabel(
                 f"Pourcentage des {column_name} par session pour type VOC", fontsize=8
             )
@@ -737,7 +744,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
             plt.title(
                 f"Pourcentage des {column_name} par session {j} pour type VOC mode {mode}"
             )
-            l.append(histogram_to_dict_diff(ax, coach[column_name]))
+            # l.append(histogram_to_dict_diff(ax, coach[column_name]))
             ########################################
             plt.subplot(
                 int(((len(tab_events)) // 3 + np.heaviside(len(tab_events) % 3, 0)))
@@ -754,10 +761,14 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
                 linewidth=1.2,
                 discrete=True,
             )
-            for rect in ax.containers[0]:
-                height = rect.get_height()
-                rect.set_height(round((height * 100), 2))
-            ax.bar_label(ax.containers[0])
+            if len(ax.containers) > 0:
+                for rect in ax.containers[0]:
+                    height = rect.get_height()
+                    rect.set_height(round((height * 100), 2))
+                ax.bar_label(ax.containers[0])
+                l1.append(histogram_to_dict_diff(ax, quizz[column_name]))
+            else:
+                l1.append({0: 0})
             plt.ylabel(
                 f"Pourcentage des {column_name} par session pour type quizz", fontsize=8
             )
@@ -766,7 +777,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
             plt.title(
                 f"Pourcentage des {column_name} par session {j} pour type quizz mode {mode}"
             )
-            l1.append(histogram_to_dict_diff(ax, quizz[column_name]))
+            # l1.append(histogram_to_dict_diff(ax, quizz[column_name]))
             j += 1
 
     plt.show()
@@ -830,6 +841,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         for i in range(len(x)):
             plt.text(x[i], y[i], y[i], ha="center", va="bottom")
         d1 = {}
+        print("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴", l1)
         for i in range(len(l1)):
             d1 = dico_matière(d1, l1[i])
 
@@ -840,7 +852,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
                 d1[key] = [d1[key]]
             while len(d1[key]) < max_len:
                 d1[key].append(0)
-
+        print("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴", d1)
         d1 = {i: round(np.mean(np.array(d1[i])), 2) for i in d1}
 
         x = list(d1.keys())
