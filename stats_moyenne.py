@@ -841,7 +841,6 @@ def histogramme_moyen_modeType(tab_events, mode, column_name="diff_relatif"):
         for i in range(len(x)):
             plt.text(x[i], y[i], y[i], ha="center", va="bottom")
         d1 = {}
-        print("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴", l1)
         for i in range(len(l1)):
             d1 = dico_matière(d1, l1[i])
 
@@ -852,7 +851,6 @@ def histogramme_moyen_modeType(tab_events, mode, column_name="diff_relatif"):
                 d1[key] = [d1[key]]
             while len(d1[key]) < max_len:
                 d1[key].append(0)
-        print("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴", d1)
         d1 = {i: round(np.mean(np.array(d1[i])), 2) for i in d1}
 
         x = list(d1.keys())
