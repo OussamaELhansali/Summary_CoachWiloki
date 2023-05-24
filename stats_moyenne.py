@@ -750,7 +750,7 @@ def histogramme_moyen_modeType(tab_events, mode, column_name="diff_relatif"):
                 int(((len(tab_events)) // 3 + np.heaviside(len(tab_events) % 3, 0)))
                 * 2,
                 3,
-                j + 3,
+                j + len(tab_events) + 3 - len(tab_events) % 3,
             )
             ax = sc.histplot(
                 quizz[column_name],
