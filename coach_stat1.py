@@ -19,11 +19,10 @@ def tableau_données(tab_event):
         if element[0] == 40:
             parsed_data.remove(element)
     array1 = parsed_data
-    ordered_array = [array1[i] for i in range(len(array1) - 1, -1, -1)]
     exercices = []
     jingles = []
     fun = []
-    for i in ordered_array:
+    for i in array1:
         if i[0] == 1:
             exercices.append(i)
         if i[0] == 20:
