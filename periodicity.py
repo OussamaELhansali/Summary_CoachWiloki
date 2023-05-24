@@ -8,6 +8,8 @@ from IPython.core.display import display, HTML
 
 def affichage_periodicité(tab_event):
     tableau = tableau_données(tab_event)[0]
+    tableau.at[0, "chgtMatiere"] = "Y"
+    tableau.at[0, "chgtNotion"] = "Y"
     Y = tableau["chgtMatiere"][tableau["chgtMatiere"] == "Y"].index
     l = []
     l_mod = []
@@ -16,7 +18,7 @@ def affichage_periodicité(tab_event):
     else:
         for i in range(len(Y) - 1):
             l.append(Y[i + 1] - Y[i])
-            l_mod.append(str(Y[i + 1] - Y[i]) + str(tableau["mod"][i])[0])
+            l_mod.append(str(Y[i + 1] - Y[i]) + str(tableau["mod"][Y[i]])[0])
         l = np.array(l)
         print("le nombre de questions avant chaque changement de matière :", l_mod)
         print(
