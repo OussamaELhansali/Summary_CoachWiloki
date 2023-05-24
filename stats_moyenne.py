@@ -177,7 +177,7 @@ def histogramme_moyen(file_names, column_name):
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
             plt.title(f"Pourcentage des {column_name} par session {j} pour type VOC")
-            l.append(histogram_to_dict_diff(ax, tableau[column_name]))
+            l.append(histogram_to_dict_diff(ax, coach[column_name]))
             ########################################
             plt.subplot(
                 int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0)))
@@ -204,7 +204,7 @@ def histogramme_moyen(file_names, column_name):
             plt.xlabel(f"{column_name}")
             plt.ylim(0, 100)
             plt.title(f"Pourcentage des {column_name} par session {j} pour type quizz")
-            l1.append(histogram_to_dict_diff(ax, tableau[column_name]))
+            l1.append(histogram_to_dict_diff(ax, quizz[column_name]))
             j += 1
 
     plt.show()
