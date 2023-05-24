@@ -501,9 +501,6 @@ def histogramme_moyen_moddiff(file_names):
                 d[key] = [d[key]]
             while len(d[key]) < max_len:
                 d[key].append(0)
-        max_len = max(
-            len(value) if isinstance(value, list) else 1 for value in d.values()
-        )
         d = {i: round(np.mean(np.array(d[i])), 2) for i in d}
         x = list(d.keys())
         y = list(d.values())
@@ -563,7 +560,7 @@ def histogramme_moyen_moddiff(file_names):
 
         d2 = {}
         for i in range(len(l2)):
-            d2 = dico_matière(d, l2[i])
+            d2 = dico_matière(d2, l2[i])
         max_len = max(
             len(value) if isinstance(value, list) else 1 for value in d2.values()
         )
@@ -798,9 +795,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         d = {}
         for i in range(len(l)):
             d = dico_matière(d, l[i])
-        print(d)
         # d={i:[d[i]]+[0]*(len(l)-len(list(d[i]))) for i in d.keys() if len(l)-len(list(d[i]))>0 }
-        d = {i: round(np.mean(np.array(d[i])), 2) for i in d}
         max_len = max(
             len(value) if isinstance(value, list) else 1 for value in d.values()
         )
