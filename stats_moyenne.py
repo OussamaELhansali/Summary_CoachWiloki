@@ -408,17 +408,23 @@ def histogramme_moyen_moddiff(file_names):
             linewidth=1.2,
             discrete=True,
         )
-        for rect in ax.containers[0]:
-            height = rect.get_height()
-            rect.set_height(round((height * 100), 2))
-        ax.bar_label(ax.containers[0])
+        if len(ax.containers) > 0:
+            for rect in ax.containers[0]:
+                height = rect.get_height()
+                rect.set_height(round((height * 100), 2))
+            ax.bar_label(ax.containers[0])
+        else:
+            pass
         plt.ylabel(
             f"Pourcentage des difficultés pour la session{j} pour mode Cool", fontsize=8
         )
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Cool")
-        l.append(histogram_to_dict_diff(ax, cool["diff_relatif"]))
+        if len(ax.containers) > 0:
+            l.append(histogram_to_dict_diff(ax, cool["diff_relatif"]))
+        else:
+            l.append({0: 0})
         ########################################
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
@@ -434,10 +440,13 @@ def histogramme_moyen_moddiff(file_names):
             linewidth=1.2,
             discrete=True,
         )
-        for rect in ax.containers[0]:
-            height = rect.get_height()
-            rect.set_height(round((height * 100), 2))
-        ax.bar_label(ax.containers[0])
+        if len(ax.containers) > 0:
+            for rect in ax.containers[0]:
+                height = rect.get_height()
+                rect.set_height(round((height * 100), 2))
+            ax.bar_label(ax.containers[0])
+        else:
+            pass
         plt.ylabel(
             f"Pourcentage des difficultés pour la session{j} pour mode Révision",
             fontsize=8,
@@ -445,7 +454,10 @@ def histogramme_moyen_moddiff(file_names):
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Révision")
-        l1.append(histogram_to_dict_diff(ax, revis["diff_relatif"]))
+        if len(ax.containers) > 0:
+            l1.append(histogram_to_dict_diff(ax, revis["diff_relatif"]))
+        else:
+            l1.append({0: 0})
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
             3,
@@ -460,10 +472,13 @@ def histogramme_moyen_moddiff(file_names):
             linewidth=1.2,
             discrete=True,
         )
-        for rect in ax.containers[0]:
-            height = rect.get_height()
-            rect.set_height(round((height * 100), 2))
-        ax.bar_label(ax.containers[0])
+        if len(ax.containers) > 0:
+            for rect in ax.containers[0]:
+                height = rect.get_height()
+                rect.set_height(round((height * 100), 2))
+            ax.bar_label(ax.containers[0])
+        else:
+            pass
         plt.ylabel(
             f"Pourcentage des difficultés pour la session{j} pour mode Winner",
             fontsize=8,
@@ -471,7 +486,10 @@ def histogramme_moyen_moddiff(file_names):
         plt.xlabel("diff_relatif")
         plt.ylim(0, 100)
         plt.title(f"Pourcentage des difficultés pour la session{j} pour mode Winner")
-        l2.append(histogram_to_dict_diff(ax, win["diff_relatif"]))
+        if len(ax.containers) > 0:
+            l2.append(histogram_to_dict_diff(ax, win["diff_relatif"]))
+        else:
+            l2.append({0: 0})
         j += 1
     plt.show()
     print(
