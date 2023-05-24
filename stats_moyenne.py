@@ -770,6 +770,7 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         x = list(d.keys())
         y = list(d.values())
         plt.ylim(0, 100)
+
         plt.ylabel(
             f"Pourcentages moyens des {column_name} des {j-1} sessions mode {mode}",
             fontsize=8,
@@ -777,7 +778,8 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         plt.title(
             f"Pourcentages moyens des {column_name} des {j-1} sessions mode {mode}"
         )
-        plt.bar(x, y, alpha=0.5, color="blue", edgecolor="white", linewidth=1.2)
+        plt.grid(color="lightblue")
+        plt.bar(x, y, alpha=0.5, color="cyan", edgecolor="white", linewidth=1.2)
         for i in range(len(x)):
             plt.text(x[i], y[i], y[i], ha="center", va="bottom")
         plt.show()
@@ -805,7 +807,8 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         plt.title(
             f"Pourcentages moyens des {column_name} des {j-1} sessions type VOC mode: {mode}"
         )
-        plt.bar(x, y, alpha=0.5, color="blue", edgecolor="white", linewidth=1.2)
+        plt.grid(color="lightblue")
+        plt.bar(x, y, alpha=0.5, color="cyan", edgecolor="white", linewidth=1.2)
         for i in range(len(x)):
             plt.text(x[i], y[i], y[i], ha="center", va="bottom")
         d1 = {}
@@ -833,7 +836,8 @@ def histogramme_moyen_modeType(tab_events, column_name="diff_relatif"):
         plt.title(
             f"Pourcentages moyens des {column_name} des {j-1} sessions type QUIZZ mode: {mode}"
         )
-        plt.bar(x, y, alpha=0.5, color="blue", edgecolor="white", linewidth=1.2)
+        plt.grid(color="lightblue")
+        plt.bar(x, y, alpha=0.5, color="cyan", edgecolor="white", linewidth=1.2)
         for i in range(len(x)):
             plt.text(x[i], y[i], y[i], ha="center", va="bottom")
         plt.show()
