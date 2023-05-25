@@ -50,6 +50,9 @@ def tableau_données(tab_event):
     )
     tableau["video"] = tableau["video"].replace("", value=None)
     tableau["kp"] = tableau["kp"].replace("", value=None)
+    tableau["diff"] = pd.to_numeric(tableau["diff"], errors="coerce")
+
+    tableau = tableau.dropna(subset=["diff"])
     return (tableau, jingles, fun)
 
 
