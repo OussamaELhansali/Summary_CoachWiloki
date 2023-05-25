@@ -183,7 +183,7 @@ def histogramme_moyen(file_names, column_name):
                 int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0)))
                 * 2,
                 3,
-                j + len(file_names) + 3 - len(file_names) % 3,
+                j + int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) *3,
             )
             ax = sc.histplot(
                 quizz[column_name],
@@ -429,7 +429,7 @@ def histogramme_moyen_moddiff(file_names):
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
             3,
-            j + len(file_names) + 3 - len(file_names) % 3,
+            j + int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
         )
         ax = sc.histplot(
             revis["diff_relatif"],
@@ -461,7 +461,7 @@ def histogramme_moyen_moddiff(file_names):
         plt.subplot(
             int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3,
             3,
-            j + len(file_names) + 9 - len(file_names) % 3,
+            j + int(((len(file_names)) // 3 + np.heaviside(len(file_names) % 3, 0))) * 3*2,
         )
         ax = sc.histplot(
             win["diff_relatif"],
@@ -750,7 +750,7 @@ def histogramme_moyen_modeType(tab_events, mode, column_name="diff_relatif"):
                 int(((len(tab_events)) // 3 + np.heaviside(len(tab_events) % 3, 0)))
                 * 2,
                 3,
-                j + len(tab_events) + 3 - len(tab_events) % 3,
+                j + int(((len(tab_events)) // 3 + np.heaviside(len(tab_events) % 3, 0)))*3,
             )
             ax = sc.histplot(
                 quizz[column_name],
