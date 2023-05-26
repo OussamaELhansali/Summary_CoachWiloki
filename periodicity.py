@@ -307,7 +307,7 @@ def affichage_periodicité_mode(tab_event, mode):
         return mean_std
 
 
-file_names = ["S12_nonParam.json", "S13_nonParam.json", "S14_nonParam.json"]
+file_names = ["S11_nonParam.json", "S13_nonParam.json", "S14_nonParam.json"]
 
 
 def periodicity_average_mode(files, mode):
